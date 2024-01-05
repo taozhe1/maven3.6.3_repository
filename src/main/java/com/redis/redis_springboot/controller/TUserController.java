@@ -27,6 +27,7 @@ public class TUserController {
     public String list(Model model){
 
          model.addAttribute("users",tUserService.list());
+        System.out.println(1);
         return "userList";
 
     }
