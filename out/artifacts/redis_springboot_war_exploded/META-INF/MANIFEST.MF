@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: macbook
+Build-Jdk: 1.8.0_372
+Implementation-Title: redis_springboot
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.redis
+Main-Class: ${start-class}
+

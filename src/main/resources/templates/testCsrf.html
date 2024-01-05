@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CSRF Token Test</title>
+</head>
+<body>
+<h1>CSRF Token Test</h1>
+<div>
+    CSRF Token: <span th:text="${_csrf}"></span>
+</div>
+<div>
+    CSRF Header: <span th:text="${_csrf_header}"></span>
+</div>
+</body>
+</html>

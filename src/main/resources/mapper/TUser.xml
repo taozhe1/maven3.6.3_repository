@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redis.redis_springboot.dao.TUserDao">
+
+    <!-- #{userName}:
+     这是 MyBatis 的参数占位符。
+     在 MyBatis 的查询中，#{userName} 用来表示一个传入的参数值，这个值在运行时会被替换为实际提供的参数。
+     在执行查询时，MyBatis 会将这个占位符替换为方法 getByName 的参数 userName 的实际值。-->
+    <select id="getByName" resultType="com.redis.redis_springboot.bean.TUser">
+        SELECT * FROM t_user WHERE user_name LIKE CONCAT('%', #{userName}, '%');
+    </select>
+
+    <select id="validate" resultType="com.redis.redis_springboot.bean.TUser">
+        SELECT * FROM t_user WHERE user_name = #{userName}
+    </select>
+
+</mapper>
+
+
+
+

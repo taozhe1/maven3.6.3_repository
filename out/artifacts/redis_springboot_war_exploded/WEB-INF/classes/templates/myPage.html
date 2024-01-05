@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf + Ajax + jQuery Example</title>
+    <!-- 引入静态资源，使用Thymeleaf语法 -->
+    <script type="text/javascript" th:src="@{/js-package/jquery-3.1.1.js}" charset="UTF-8"></script>
+    <!-- 在其他脚本之前引入全局配置文件 -->
+    <script type="text/javascript" th:src="@{/js-util/ApiHelper.js}" charset="UTF-8"></script>
+
+    <script type="text/javascript" th:src="@{/js-code/myPage.js}" charset="UTF-8"></script>
+
+
+</head>
+<body>
+<h1 th:text="${message}"></h1>
+<button id="ajaxButton">Send Ajax Request</button>
+
+</body>
+</html>
