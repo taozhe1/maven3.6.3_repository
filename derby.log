@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Nov 22 14:32:57 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-018b-f5bb-5628-000007568840 
+on database directory memory:/Users/macbook/Desktop/job202110/Tset2021/redis_springboot/e5d57e76-668c-4c83-a394-8848a48bd6a8 with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/Users/macbook/Desktop/maven3.6.3_repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Amazon.com Inc.
+java.runtime.version=1.8.0_372-b07
+user.dir=/Users/macbook/Desktop/job202110/Tset2021/redis_springboot
+os.name=Mac OS X
+os.arch=x86_64
+os.version=13.2.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

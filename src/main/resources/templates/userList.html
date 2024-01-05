@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Thymeleaf + Ajax + jQuery Example</title>
+
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <!-- 引入静态资源，使用Thymeleaf语法 -->
+  <script type="text/javascript" th:src="@{/js-package/jquery-3.1.1.js}" charset="UTF-8"></script>
+  <!-- 在其他脚本之前引入全局配置文件 -->
+  <script type="text/javascript" th:src="@{/js-util/ApiHelper.js}" charset="UTF-8"></script>
+
+  <script type="text/javascript" th:src="@{/js-code/userList.js}" charset="UTF-8"></script>
+
+  <!-- Bootstrap JS 和 Popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!--  <meta name="_csrf" content="${_csrf.token}"/>-->
+<!--  <meta name="_csrf_header" content="${_csrf.headerName}"/>-->
+
+
+
+</head>
+<body>
+
+<h2>管理列表</h2>
+<div class="search-container my-3">
+  <div class="input-group">
+    <input type="text" id="searchInput" class="form-control" placeholder="搜索用户名...">
+    <div class="input-group-append">
+      <button id="searchButton" class="btn btn-outline-secondary" type="button">搜索</button>
+    </div>
+  </div>
+</div>
+<button id="logoutButton">注销</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">添加用户</button>
+
+<!-- 添加用户模态框 -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">添加新用户</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addUserForm">
+          <div class="form-group">
+            <label for="addUsername">用户名:</label>
+            <input type="text" class="form-control" id="addUsername" name="username">
+          </div>
+          <div class="form-group">
+            <label for="addPassword">密码:</label>
+            <input type="password" class="form-control" id="addPassword" name="password">
+          </div>
+          <!-- 其他字段 -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" form="addUserForm" class="btn btn-primary">添加用户</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>用户名</th>
+    <th>密码</th>
+    <th>最后登录时间</th>
+    <th>最后登录IP</th>
+    <th>状态</th>
+    <th>盐值</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody id="tableBody">
+  <!-- 循环遍历用户数据 -->
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}">ID</td>
+    <td th:text="${user.userName}">用户名</td>
+    <td th:text="${user.password}">密码</td>
+    <td th:text="${user.lastLogin}">最后登录时间</td>
+    <td th:text="${user.lastIp}">最后登录IP</td>
+    <td th:text="${user.status == 0 ? '禁用' : '启用'}">状态</td>
+    <td th:text="${user.salt}">盐值</td>
+    <td>
+      <button th:attr="data-id=${user.id}" class="delete-btn">删除</button>
+      <button th:attr="data-id=${user.id}" class="edit-btn">修改</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">编辑用户信息</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          <input type="hidden" id="userId" name="userId">
+          <div class="form-group">
+            <label for="username">用户名:</label>
+            <input type="text" class="form-control" id="username" name="username">
+          </div>
+          <div class="form-group">
+            <label for="password">密码:</label>
+            <input type="text" class="form-control" id="password" name="password">
+          </div>
+          <!-- 其他字段 -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="submit" form="editForm" class="btn btn-primary">保存更改</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

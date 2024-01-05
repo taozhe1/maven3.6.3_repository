@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <context:component-scan base-package="com.redis.redis_springboot.dao"/>
+    </bean>-->
+
+<!--    <context:component-scan base-package="com.redis.redis_springboot"/>-->
+<!--    <context:component-scan base-package="com.redis.redis_springboot.service"/>-->
+
+    <!-- 数据源配置 application.properties文件数据源不生效才配置的数据源信息  applicationContext.xml 中配置数据源，可能是因为项目的配置方式是基于传统的Spring配置方式，而不是Spring Boot。在这种情况下，您需要手动配置和管理数据源，因为Spring Boot的自动配置可能不会生效-->
+     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://10.124.145.101:3306/dev_rai_dreport?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8" />
+        <property name="username" value="dev_rai_dreport" />
+        <property name="password" value="j7bx6NxjHQF9Tb" />
+        <!-- Druid 连接池配置 -->
+        <property name="initialSize" value="5" />
+        <property name="minIdle" value="5" />
+        <property name="maxActive" value="20" />
+        <property name="maxWait" value="60000" />
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="validationQuery" value="SELECT 1" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+    </bean>
+
+
+
+</beans>
