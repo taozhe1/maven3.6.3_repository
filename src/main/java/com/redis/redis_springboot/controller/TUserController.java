@@ -26,6 +26,8 @@ public class TUserController {
     @RequestMapping("/list")
     public String list(Model model){
 
+        System.out.println("12313123");
+
          model.addAttribute("users",tUserService.list());
         return "userList";
 
