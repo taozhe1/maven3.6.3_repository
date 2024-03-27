@@ -28,7 +28,7 @@ public class TUserController {
 
         System.out.println("12313123");
 
-        System.out.println("3333333331");
+        //System.out.println("3333333331");
 
         model.addAttribute("users",tUserService.list());
         return "userList";
