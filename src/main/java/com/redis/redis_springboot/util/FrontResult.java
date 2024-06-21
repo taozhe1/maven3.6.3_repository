@@ -4,7 +4,7 @@ package com.redis.redis_springboot.util;
 import com.redis.redis_springboot.enums.EnumClass;
 
 
-public class FrontResult {
+public class FrontResult<T> {
 
     /**
      * 结果状态码
@@ -17,10 +17,10 @@ public class FrontResult {
     /**
      * 返回数据
      */
-    private Object data;
+    private T data;
 
 
-    public FrontResult(Object data) {
+    public FrontResult(T data) {
         this.data = data;
         this.code = EnumClass.ResultEnum.SUCCESS.getCode();
         this.message = "操作成功";
@@ -99,15 +99,15 @@ public class FrontResult {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 
-    public FrontResult(Integer code, String message, Object data) {
+    public FrontResult(Integer code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
