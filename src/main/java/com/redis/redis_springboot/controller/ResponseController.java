@@ -1,12 +1,15 @@
 package com.redis.redis_springboot.controller;
 
 import com.redis.redis_springboot.util.FrontResult;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +17,27 @@ import java.util.Map;
 @RestController
 public class ResponseController {
 
+    @Value("${project.url.is}")
+    private String url;
+
+    @Value("${project.url.ip:12301}")
+    private String ip;
+
     @RequestMapping("/holle")
-    public ResponseEntity<?> holle(){
-       return ResponseEntity.ok("holle");
+    public ResponseEntity<?> holle(HttpServletRequest request){
+
+        HttpSession session = request.getSession(false);
+        System.out.println("getId==" +  session.getId());
+        System.out.println("getMaxInactiveInterval=="+session.getMaxInactiveInterval());
+        System.out.println("isNew==" +  session.isNew());
+        return ResponseEntity.ok("holle");
+    }
+
+    @RequestMapping("/getSession")
+    public ResponseEntity<?> getSession(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return ResponseEntity.ok("失效");
     }
 
     /**
@@ -63,6 +84,12 @@ public class ResponseController {
         return FrontResult.getExceptionResult(null,e.toString());
     }
 
+    @RequestMapping("/url")
+    public void url(){
+        System.out.println(ip);
+        System.out.println(url);
+
+    }
 
 
 
