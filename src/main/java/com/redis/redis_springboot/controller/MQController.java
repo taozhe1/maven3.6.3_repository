@@ -15,9 +15,39 @@ public class MQController {
     private RocketMQProducer mqProducer;
 
     @RequestMapping("/send")
-    public void send(){
-        mqProducer.testProducter();
-        System.out.println(111);
+    public String send(){
+
+        long start = System.currentTimeMillis();
+        for (int i = 0; i <5000; i++) {
+            mqProducer.testProducter();
+        }
+        long end = System.currentTimeMillis();
+        return "耗时=="+(end - start);
+    }
+
+    @RequestMapping("/send2")
+    public String send2(){
+
+        long start = System.currentTimeMillis();
+        for (int i = 0; i <5000; i++) {
+            mqProducer.testProducter2();
+        }
+        long end = System.currentTimeMillis();
+
+        return "耗时=="+(end - start);
+    }
+
+    @RequestMapping("/send3")
+    public String send3(){
+
+        long start = System.currentTimeMillis();
+        for (int i = 0; i <5000; i++) {
+            mqProducer.testProducter3();
+            System.out.println("循环次数"+i);
+        }
+        long end = System.currentTimeMillis();
+
+        return "耗时=="+(end - start);
     }
 
 
