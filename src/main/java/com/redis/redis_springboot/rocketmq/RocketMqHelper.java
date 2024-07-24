@@ -4,13 +4,16 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -25,8 +28,6 @@ public class RocketMqHelper {
      */
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
-
-
     /**
      * 普通发送
      * @param topic     消息主题
@@ -232,8 +233,19 @@ public class RocketMqHelper {
         return rocketMQTemplate.syncSend(topic, messageList);
     }
 
-
-
+    /**
+     * 发送事务消息
+     *
+     * @param topic   topic
+     * @param message 消息对象
+     */
+    public void sendMessageInTransaction(String topic, String message) {
+        String transactionId = UUID.randomUUID().toString();
+        TransactionSendResult result = rocketMQTemplate.sendMessageInTransaction(topic, MessageBuilder.withPayload(message)
+                .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+                .build(), message);
+        log.info("发送事务消息（半消息）完成：result = {}", result);
+    }
 
 
 }
