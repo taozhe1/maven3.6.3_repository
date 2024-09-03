@@ -9,4 +9,9 @@ import java.lang.annotation.*;
 @Documented
 public @interface ElapsedTimeAnnotation {
 
+
+    // 默认拦截
+    boolean needLog() default true;
+
+    String arbitrarily() default "";
 }

@@ -1,6 +1,7 @@
 package com.redis.redis_springboot.bean;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Table;
@@ -53,6 +54,8 @@ public class TdGoods {
     /**
      * 创建人手机号
      */
+
+    @JsonProperty("PHONE_NUMBER")
     private Integer phoneNumber;
 
 

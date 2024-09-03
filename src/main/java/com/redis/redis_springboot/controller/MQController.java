@@ -26,6 +26,9 @@ public class MQController {
     @Autowired
     TdGoodsService goodsService;
 
+    @Autowired
+    ResponseController responseController;
+
 
     @RequestMapping("/send")
     public String send(){
@@ -73,9 +76,11 @@ public class MQController {
     }
 
     @RequestMapping("/getName")
-    @ElapsedTimeAnnotation
+    @ElapsedTimeAnnotation(arbitrarily = "#tdGoods.phoneNumber")
     public FrontResult getName(@RequestBody TdGoods tdGoods) throws Exception {
         List<TdGoods> byName = goodsService.getByName(tdGoods);
+       // @RequestParam 注解的作用是将HTTP请求中的查询参数或表单参数绑定到方法的参数上，但在代码内部直接调用时，这种绑定机制不再适用
+        //responseController.exceptionDispose(2);
         return new FrontResult(byName);
     }
 
