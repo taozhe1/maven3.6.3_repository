@@ -32,7 +32,13 @@ public interface RMQConstant {
      * 标签
      */
     interface Tags{
-          String TAG_1 = "tag1";
+        String TAG_1 = "tag1";
+
+        String TAG_2 = "tag2";
+
+        String TAG_3 = "tag3";
+
+        String TAG_4 = "tag4";
     }
 
 
