@@ -9,6 +9,11 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.DefaultParameterNameDiscoverer;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -56,7 +61,12 @@ public class ElapsedTimeAspect {
         ElapsedTimeAnnotation annotation = method.getAnnotation(ElapsedTimeAnnotation.class);
 
         if(annotation!=null){
-            long start = System.currentTimeMillis();
+            //动态传参
+            String s = generateKeyBySpEL(annotation.arbitrarily(), joinPoint);
+            log.info("动态参数："+s);
+
+            if(annotation.needLog()){
+                long start = System.currentTimeMillis();
                 Object result = joinPoint.proceed();
                 long end = System.currentTimeMillis();
                 long elapsedTime = end - start;
@@ -68,9 +78,10 @@ public class ElapsedTimeAspect {
                         .append("。耗时时长：").append(elapsedTime).append("ms").toString();
                 log.info(stringBuffer);
                 return result;
-            } else {
-                return joinPoint.proceed();
+             }
             }
+
+        return joinPoint.proceed();
 
     }
 
@@ -95,6 +106,23 @@ public class ElapsedTimeAspect {
     @After("annotationPointcut()")
     public void after(JoinPoint joinPoint){
     }
+
+    private SpelExpressionParser parserSpel = new SpelExpressionParser();
+    private DefaultParameterNameDiscoverer parameterNameDiscoverer= new DefaultParameterNameDiscoverer();
+
+
+    public String generateKeyBySpEL(String key, ProceedingJoinPoint pjp) {
+        Expression expression = parserSpel.parseExpression(key);
+        EvaluationContext context = new StandardEvaluationContext();
+        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
+        Object[] args = pjp.getArgs();
+        String[] paramNames = parameterNameDiscoverer.getParameterNames(methodSignature.getMethod());
+        for(int i = 0 ; i < args.length ; i++) {
+            context.setVariable(paramNames[i], args[i]);
+        }
+        return expression.getValue(context).toString();
+    }
+
 
 
 }
