@@ -1,4 +1,4 @@
-package com.redis.redis_springboot.rocketmq;
+package com.redis.redis_springboot.util;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class RocketMqHelper {
+public class RocketMqHelperUtils {
 
 
 
@@ -59,7 +59,8 @@ public class RocketMqHelper {
      * 发送同步消息（阻塞当前线程，等待broker响应发送结果，这样不太容易丢失消息）
      * sendResult为返回的发送结果
      */
-    public <T> SendResult sendMsg(String topic, T msg) {
+    public <T> SendResult sendMsg(String topic,String tag, T msg) {
+        topic = topic + ":" + tag;
         Message<T> message = MessageBuilder.withPayload(msg).build();
         SendResult sendResult = rocketMQTemplate.syncSend(topic, message);
         log.info("【sendMsg】sendResult={}", JSON.toJSONString(sendResult));
@@ -75,17 +76,20 @@ public class RocketMqHelper {
      * @param msg       消息实体
      *
      */
-    public <T> void asyncSend(String topic, T msg) {
+    public <T> void asyncSend(String topic,String tag ,T msg) {
+        topic = topic + ":" + tag;
         Message<T> message = MessageBuilder.withPayload(msg).build();
+
+        String finalTopic = topic;
         asyncSend(topic, message, new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {
-                log.info("topic:{}消息---发送MQ成功---", topic);
+                log.info("topic:{}消息---发送MQ成功---", finalTopic);
             }
 
             @Override
             public void onException(Throwable throwable) {
-                log.error("topic:{}消息---发送MQ失败 ex:{}---", topic, throwable.getMessage());
+                log.error("topic:{}消息---发送MQ失败 ex:{}---", finalTopic, throwable.getMessage());
             }
         });
     }
@@ -239,7 +243,8 @@ public class RocketMqHelper {
      * @param topic   topic
      * @param message 消息对象
      */
-    public void sendMessageInTransaction(String topic, String message) {
+    public void sendMessageInTransaction(String topic,String tag, String message) {
+        topic = topic + ":" + tag;
         String transactionId = UUID.randomUUID().toString();
         TransactionSendResult result = rocketMQTemplate.sendMessageInTransaction(topic, MessageBuilder.withPayload(message)
                 .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
