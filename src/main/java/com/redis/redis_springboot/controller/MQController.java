@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 @Slf4j
 @RequestMapping("/mq")
@@ -28,6 +31,15 @@ public class MQController {
 
     @Autowired
     ResponseController responseController;
+
+    @Autowired
+    RestTemplate template;
+
+    @Autowired
+    HttpServletResponse response;
+
+    @Autowired
+    HttpServletRequest request;
 
 
     @RequestMapping("/send")
@@ -81,6 +93,16 @@ public class MQController {
         List<TdGoods> byName = goodsService.getByName(tdGoods);
        // @RequestParam 注解的作用是将HTTP请求中的查询参数或表单参数绑定到方法的参数上，但在代码内部直接调用时，这种绑定机制不再适用
         //responseController.exceptionDispose(2);
+  /*      MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("Accept", "application/json");
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        headers.add("Accept-Encoding", "");
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(JSON.toJSONString(tdGoods),headers);
+        ResponseEntity<String> exchange = template.exchange("XXXXXXXXXXXXXXXXX", HttpMethod.POST, httpEntity, String.class);
+        String body = exchange.getBody();
+        System.out.println("FrontResultFrontResultFrontResultFrontResult=="+body);
+
+        System.out.println("getNamegetNamegetNamegetNamegetName=="+exchange);*/
         return new FrontResult(byName);
     }
 
@@ -90,5 +112,17 @@ public class MQController {
         return new FrontResult(byName);
     }
 
+/*    public Cookie getCookie(){
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if("JSESSIONID".equals(cookie.getName())){
+                    return cookie;
+
+                }
+            }
+        }
+        return null;
+    }*/
 
 }

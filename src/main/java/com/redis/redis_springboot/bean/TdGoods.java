@@ -1,8 +1,10 @@
 package com.redis.redis_springboot.bean;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Table;
 import java.util.Date;
@@ -30,6 +32,9 @@ public class TdGoods {
     /**
      * 创建时间
      */
+
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8" )
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     /**
