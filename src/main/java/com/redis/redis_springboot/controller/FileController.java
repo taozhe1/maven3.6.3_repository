@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
 
 @RestController
 @RequestMapping("/files")
@@ -34,26 +31,10 @@ public class FileController {
 
 
     @RequestMapping("/download")
-    public void downloadFile(HttpServletResponse response, @RequestParam String fileName) throws IOException {
-        // 从阿里云 OSS 获取文件流
-        InputStream object = aliyunOssUtil.getObject(fileName);
-
-        // 设置响应头，告诉客户端这是一个文件下载的请求
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-
-        // 将文件流写入响应输出流
-        try (ServletOutputStream outputStream = response.getOutputStream()) {
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = object.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, length);
-            }
-        } finally {
-            // 关闭输入流
-            object.close();
-        }
+    public void downloadFile(HttpServletResponse response, @RequestParam String fileName) throws Exception {
+        aliyunOssUtil.downloadFile(response,fileName);
     }
+
 
 
 }
