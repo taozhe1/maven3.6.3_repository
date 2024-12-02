@@ -19,5 +19,6 @@ public class TUser implements Serializable {
     private String lastIp;
     private int status;
     private String salt;
+    private String picture;
 
 }

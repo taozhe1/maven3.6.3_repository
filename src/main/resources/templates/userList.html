@@ -79,6 +79,7 @@
     <th>最后登录IP</th>
     <th>状态</th>
     <th>盐值</th>
+    <th>用户照片</th>
     <th>操作</th>
   </tr>
   </thead>
@@ -92,6 +93,9 @@
     <td th:text="${user.lastIp}">最后登录IP</td>
     <td th:text="${user.status == 0 ? '禁用' : '启用'}">状态</td>
     <td th:text="${user.salt}">盐值</td>
+    <td>
+      <img th:src="${user.picture}" alt="用户照片" width="100" height="100"/>
+    </td>
     <td>
       <button th:attr="data-id=${user.id}" class="delete-btn">删除</button>
       <button th:attr="data-id=${user.id}" class="edit-btn">修改</button>
