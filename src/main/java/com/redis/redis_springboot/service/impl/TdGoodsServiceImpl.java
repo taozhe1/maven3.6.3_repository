@@ -35,7 +35,7 @@ public class TdGoodsServiceImpl extends ServiceImpl<TdGoodsDao, TdGoods> impleme
 
     @Override
     public List<TdGoods> getByName(TdGoods tdGoods) throws Exception {
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         return goodsDao.getByName(tdGoods);
     }
 
