@@ -25,6 +25,7 @@ public class FututreController {
     @Autowired
     private ThreadPoolTaskConfig executorService;
 
+    //提交
     @RequestMapping("/test01")
     public Map<String, List<TdGoods>> test01(@RequestBody TdGoods tdGoods) throws Exception {
         Map<String, List<TdGoods>> map = new HashMap<>();
