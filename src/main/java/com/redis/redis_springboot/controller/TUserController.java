@@ -6,6 +6,7 @@ import com.redis.redis_springboot.service.TUserService;
 import com.redis.redis_springboot.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,9 @@ public class TUserController {
     private TUserService tUserService;
     @Autowired
     SecurityUtils securityUtils;
+
+    @Autowired
+    TUserController tUserController;
 
     @RequestMapping("/list")
     public String list(Model model){
@@ -44,8 +48,28 @@ public class TUserController {
 
     @RequestMapping("/getById")
     @ResponseBody
-    public TUser getById(@RequestParam int id){
-        return tUserService.getById(id);
+    public TUser getById(@RequestParam int id,int is,int isex) throws Exception{
+        TUser byId = tUserService.getById(id);
+
+        if(is==0){
+            this.del(id,isex);
+        }else if(is==2){
+            del(id,isex);
+        }else if(is==3){
+            tUserController.del(id,isex);
+        }
+        return byId;
+    }
+
+    @RequestMapping("/del")
+    @ResponseBody
+    @Transactional(rollbackFor = Exception.class)
+    public boolean del(@RequestParam int id,int isex){
+        tUserService.removeById(id);
+        if(isex==0){
+            int i = 1 / 0;
+        }
+        return true;
     }
 
     @RequestMapping("/update")
@@ -56,11 +80,7 @@ public class TUserController {
 
     }
 
-    @RequestMapping("/del")
-    @ResponseBody
-    public boolean del(@RequestParam int id){
-        return tUserService.removeById(id);
-    }
+
 
     @RequestMapping("/getByName")
     @ResponseBody
