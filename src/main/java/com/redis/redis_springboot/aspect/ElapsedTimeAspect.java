@@ -124,5 +124,10 @@ public class ElapsedTimeAspect {
     }
 
 
+    public static void main(String[] args) {
+
+    }
+
+
 
 }
